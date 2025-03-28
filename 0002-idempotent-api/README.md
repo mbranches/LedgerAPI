@@ -54,3 +54,10 @@ Content-Type: application/json
 - Implemente um mecanismo de limpeza para chaves de idempotência antigas
 - Pense em casos de concorrência e como lidar com eles
 - Considere diferentes cenários de falha e como recuperar-se deles
+
+## Referências
+- [REST API Design: Idempotency](https://restfulapi.net/idempotent-rest-apis/) - Explicação detalhada sobre APIs idempotentes
+- [Stripe's Idempotency Keys](https://stripe.com/blog/idempotency) - Como o Stripe implementa idempotência
+- [HTTP Idempotency](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2) - RFC oficial sobre idempotência em HTTP
+- [Idempotency in Distributed Systems](https://www.youtube.com/watch?v=QhTj3Ax98sY) - Palestra sobre idempotência em sistemas distribuídos
+- [Idempotency Patterns](https://martinfowler.com/articles/patterns-of-distributed-systems/idempotent-receiver.html) - Padrões de idempotência por Martin Fowler
