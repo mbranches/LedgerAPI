@@ -43,4 +43,10 @@ public class TransactionService {
 
         return mapper.toTransactionGetResponseList(response);
     }
+
+    public List<TransactionGetResponse> getExpenses() {
+        List<Transaction> response = repository.findAllByValueIsLessThan(0D);
+
+        return mapper.toTransactionGetResponseList(response);
+    }
 }

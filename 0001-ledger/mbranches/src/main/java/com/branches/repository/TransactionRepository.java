@@ -13,4 +13,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     Double sumAllTransactions();
 
     List<Transaction> findAllByValueGreaterThan(Double valueIsGreaterThan);
+
+    List<Transaction> findAllByValueIsLessThan(Double valueIsLessThan);
 }
