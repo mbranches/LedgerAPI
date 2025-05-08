@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,9 +33,19 @@ public class TransactionService {
         return repository.sumAllTransactions();
     }
 
-    public List<TransactionGetResponse> findAll() {
-        List<Transaction> response = repository.findAll(Sort.by("date").descending());
+    public List<TransactionGetResponse> findAll(LocalDateTime dateStart, LocalDateTime dateEnd) {
+        List<Transaction> response;
+        Sort sort = Sort.by("date").descending();
 
+        if (dateStart == null && dateEnd == null) {
+            response = repository.findAll(sort);
+        } else if (dateStart != null && dateEnd != null) {
+            response = repository.findAllByDateBetween(dateStart, dateEnd, sort);
+        } else if (dateStart != null) {
+            response = repository.findAllByDateGreaterThanEqual(dateStart, sort);
+        } else {
+            response = repository.findAllByDateLessThanEqual(dateEnd, sort);
+        }
         return mapper.toTransactionGetResponseList(response);
     }
 

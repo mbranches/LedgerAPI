@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +27,9 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionGetResponse>> findAll() {
-        List<TransactionGetResponse> response = service.findAll();
+    public ResponseEntity<List<TransactionGetResponse>> findAll(@RequestParam(required = false) LocalDateTime dateStart,
+                                                                @RequestParam(required = false) LocalDateTime dateEnd) {
+        List<TransactionGetResponse> response = service.findAll(dateStart, dateEnd);
 
         return ResponseEntity.ok(response);
     }
