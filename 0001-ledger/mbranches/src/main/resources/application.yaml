@@ -1,1 +1,17 @@
-spring.application.name=Ledger
+spring:
+  config:
+    import: optional:classpath:.env[.properties]
+  application:
+    name: ledger-devsNorte
+  datasource:
+    url: jdbc:mysql://localhost:3308/ledger?createDatabaseIfNotExist=true
+    username: root
+    password: ${ENV_MYSQL_ROOT_PASSWORD}
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
