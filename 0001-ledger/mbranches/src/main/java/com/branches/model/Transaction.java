@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +24,7 @@ public class Transaction {
     private Double value;
     @Column(nullable = false, length = 50)
     private String description;
-    @Column(nullable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
+    @CreationTimestamp(source = SourceType.DB)
     private LocalDateTime date;
 }
