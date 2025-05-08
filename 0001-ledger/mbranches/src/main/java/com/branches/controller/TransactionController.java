@@ -32,6 +32,13 @@ public class TransactionController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/incomes")
+    public ResponseEntity<List<TransactionGetResponse>> getIncomes() {
+        List<TransactionGetResponse> response = service.getIncomes();
+
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/balance")
     public ResponseEntity<Map<String, Double>> getBalance() {
         Double balance = service.getBalance();

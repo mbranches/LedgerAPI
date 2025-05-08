@@ -37,4 +37,10 @@ public class TransactionService {
 
         return mapper.toTransactionGetResponseList(response);
     }
+
+    public List<TransactionGetResponse> getIncomes() {
+        List<Transaction> response = repository.findAllByValueGreaterThan(0D);
+
+        return mapper.toTransactionGetResponseList(response);
+    }
 }
