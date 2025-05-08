@@ -1,0 +1,12 @@
+services:
+  ledger:
+    container_name: ledger-db-mbranches
+    image: mysql:9.0.1
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ENV_MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3308:3306
+    volumes:
+      - branches-db:/var/lib/mysql
+volumes:
+  branches-db:
