@@ -23,4 +23,8 @@ public class TransactionService {
 
         return mapper.toTransactionPostResponse(response);
     }
+
+    public Double getBalance() {
+        return repository.sumAllTransactions();
+    }
 }

@@ -22,7 +22,7 @@ public class Transaction {
     private Long id;
     @Column(nullable = false)
     private Double value;
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String description;
     @Column(nullable = false, insertable = false, updatable = false)
     @CreationTimestamp(source = SourceType.DB)
