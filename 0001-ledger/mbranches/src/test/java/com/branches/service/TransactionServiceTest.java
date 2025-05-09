@@ -91,19 +91,19 @@ class TransactionServiceTest {
     }
 
     @Test
-    @DisplayName("findAll returns found transactions when dateStart and dateEnd are given")
+    @DisplayName("findAll returns found transactions when starDate and endDate are given")
     @Order(4)
     void findAll_ReturnsFoundTransactions_WhenTheStartDateAndEndDateAreGiven() {
-        LocalDateTime dateStart = TransactionUtils.getStartDateValid();
-        LocalDateTime dateEnd = TransactionUtils.getEndDateValid();
+        LocalDateTime starDate = TransactionUtils.getStartDateValid();
+        LocalDateTime endDate = TransactionUtils.getEndDateValid();
 
         Sort sort = Sort.by("date").descending();
-        BDDMockito.when(repository.findAllByDateBetween(dateStart, dateEnd, sort))
+        BDDMockito.when(repository.findAllByDateBetween(starDate, endDate, sort))
                 .thenReturn(transactionList);
         BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
 
-        List<TransactionGetResponse> response = service.findAll(dateStart, dateEnd);
+        List<TransactionGetResponse> response = service.findAll(starDate, endDate);
 
         Assertions.assertThat(response)
                 .isNotNull()
@@ -115,15 +115,15 @@ class TransactionServiceTest {
     @DisplayName("findAll returns an empty list when date range does not contain transactions")
     @Order(5)
     void findAll_ReturnsEmptyList_WhenDateRangeDoesNotContainsTransactions() {
-        LocalDateTime dateStart = LocalDateTime.of(2030, 12, 1, 23, 59, 59);
-        LocalDateTime dateEnd = LocalDateTime.of(2030, 12, 31, 23, 59, 59);
+        LocalDateTime starDate = LocalDateTime.of(2030, 12, 1, 23, 59, 59);
+        LocalDateTime endDate = LocalDateTime.of(2030, 12, 31, 23, 59, 59);
 
-        BDDMockito.when(repository.findAllByDateBetween(dateStart, dateEnd, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateBetween(starDate, endDate, Sort.by("date").descending()))
                 .thenReturn(Collections.emptyList());
         BDDMockito.when(mapper.toTransactionGetResponseList(Collections.emptyList()))
                 .thenReturn(Collections.emptyList());
 
-        List<TransactionGetResponse> response = service.findAll(dateStart, dateEnd);
+        List<TransactionGetResponse> response = service.findAll(starDate, endDate);
 
         Assertions.assertThat(response)
                 .isNotNull()
@@ -131,18 +131,18 @@ class TransactionServiceTest {
     }
 
     @Test
-    @DisplayName("findAll returns found transactions when the dateStart is given")
+    @DisplayName("findAll returns found transactions when the starDate is given")
     @Order(6)
     void findAll_ReturnsFoundTransactions_WhenTheStartDateIsGiven() {
-        LocalDateTime dateStart = TransactionUtils.getStartDateValid();
+        LocalDateTime starDate = TransactionUtils.getStartDateValid();
 
-        BDDMockito.when(repository.findAllByDateGreaterThanEqual(dateStart, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateGreaterThanEqual(starDate, Sort.by("date").descending()))
                 .thenReturn(transactionList);
         BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
 
 
-        List<TransactionGetResponse> response = service.findAll(dateStart, null);
+        List<TransactionGetResponse> response = service.findAll(starDate, null);
 
         Assertions.assertThat(response)
                 .isNotNull()
@@ -153,17 +153,17 @@ class TransactionServiceTest {
 
 
     @Test
-    @DisplayName("findAll returns an empty list when does not exists transactions after dateStart")
+    @DisplayName("findAll returns an empty list when does not exists transactions after starDate")
     @Order(7)
     void findAll_ReturnsEmptyList_WhenDoesNotExistsTransactionsAfterDateStart() {
-        LocalDateTime dateStart = LocalDateTime.of(2030, 12, 1, 23, 59, 59);
+        LocalDateTime starDate = LocalDateTime.of(2030, 12, 1, 23, 59, 59);
 
-        BDDMockito.when(repository.findAllByDateGreaterThanEqual(dateStart, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateGreaterThanEqual(starDate, Sort.by("date").descending()))
                 .thenReturn(Collections.emptyList());
         BDDMockito.when(mapper.toTransactionGetResponseList(Collections.emptyList()))
                 .thenReturn(Collections.emptyList());
 
-        List<TransactionGetResponse> response = service.findAll(dateStart, null);
+        List<TransactionGetResponse> response = service.findAll(starDate, null);
 
         Assertions.assertThat(response)
                 .isNotNull()
@@ -175,14 +175,14 @@ class TransactionServiceTest {
     @DisplayName("findAll returns found transactions when the end date is given")
     @Order(8)
     void findAll_ReturnsFoundTransactions_WhenTheEndDateIsGiven() {
-        LocalDateTime dateEnd = TransactionUtils.getEndDateValid();
+        LocalDateTime endDate = TransactionUtils.getEndDateValid();
 
-        BDDMockito.when(repository.findAllByDateLessThanEqual(dateEnd, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateLessThanEqual(endDate, Sort.by("date").descending()))
                 .thenReturn(transactionList);
         BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
 
-        List<TransactionGetResponse> response = service.findAll(null, dateEnd);
+        List<TransactionGetResponse> response = service.findAll(null, endDate);
 
         Assertions.assertThat(response)
                 .isNotNull()
@@ -191,17 +191,17 @@ class TransactionServiceTest {
     }
 
     @Test
-    @DisplayName("findAll returns an empty list when does not exists transactions before dateEnd")
+    @DisplayName("findAll returns an empty list when does not exists transactions before endDate")
     @Order(9)
     void findAll_ReturnsEmptyList_WhenDoesNotExistsTransactionsBeforeDateEnd() {
-        LocalDateTime dateEnd = LocalDateTime.of(2025, 1, 1, 0, 0, 0);
+        LocalDateTime endDate = LocalDateTime.of(2025, 1, 1, 0, 0, 0);
 
-        BDDMockito.when(repository.findAllByDateLessThanEqual(dateEnd, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateLessThanEqual(endDate, Sort.by("date").descending()))
                 .thenReturn(Collections.emptyList());
         BDDMockito.when(mapper.toTransactionGetResponseList(Collections.emptyList()))
                 .thenReturn(Collections.emptyList());
 
-        List<TransactionGetResponse> response = service.findAll(null, dateEnd);
+        List<TransactionGetResponse> response = service.findAll(null, endDate);
 
         Assertions.assertThat(response)
                 .isNotNull()
