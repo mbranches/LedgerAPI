@@ -40,7 +40,7 @@ public class TransactionUtils {
     public static TransactionPostRequest newTransactionPostRequest() {
         return TransactionPostRequest.builder()
                 .description("Fatura do Cartão")
-                .value(2700.4D)
+                .value(-2700.4D)
                 .build();
     }
 
@@ -61,7 +61,7 @@ public class TransactionUtils {
         return TransactionPostResponse.builder()
                 .id(4L)
                 .description("Fatura do Cartão")
-                .value(2700.4D)
+                .value(-2700.4D)
                 .date(LocalDateTime.of(2025, 1, 30, 20, 25, 30))
                 .build();
     }
