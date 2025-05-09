@@ -29,6 +29,14 @@ class TransactionServiceTest {
     private TransactionRepository repository;
     @Mock
     private TransactionMapper mapper;
+    private List<Transaction> transactionList;
+    private List<TransactionGetResponse> transactionGetResponseList;
+
+    @BeforeEach
+    void init() {
+        transactionList = TransactionUtils.newTransactionList();
+        transactionGetResponseList = TransactionUtils.newTransactionGetResponseList();
+    }
 
     @Test
     @DisplayName("save creates transaction when successful")
@@ -67,13 +75,11 @@ class TransactionServiceTest {
     @DisplayName("findAll returns all transactions when successful")
     @Order(3)
     void findAll_ReturnsAllTransactions_WhenSuccessful() {
-        List<Transaction> transactions = TransactionUtils.newTransactionList();
-        List<TransactionGetResponse> transactionGetResponseList = TransactionUtils.newTransactionGetResponseList();
         Sort sort = Sort.by("date").descending();
 
         BDDMockito.when(repository.findAll(sort))
-                .thenReturn(transactions);
-        BDDMockito.when(mapper.toTransactionGetResponseList(transactions))
+                .thenReturn(transactionList);
+        BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
 
         List<TransactionGetResponse> response = service.findAll(null, null);
@@ -88,16 +94,13 @@ class TransactionServiceTest {
     @DisplayName("findAll returns found transactions when dateStart and dateEnd are given")
     @Order(4)
     void findAll_ReturnsFoundTransactions_WhenTheStartDateAndEndDateAreGiven() {
-        List<Transaction> transactions = TransactionUtils.newTransactionList();
-        List<TransactionGetResponse> transactionGetResponseList = TransactionUtils.newTransactionGetResponseList();
-
         LocalDateTime dateStart = TransactionUtils.getStartDateValid();
         LocalDateTime dateEnd = TransactionUtils.getEndDateValid();
 
         Sort sort = Sort.by("date").descending();
         BDDMockito.when(repository.findAllByDateBetween(dateStart, dateEnd, sort))
-                .thenReturn(transactions);
-        BDDMockito.when(mapper.toTransactionGetResponseList(transactions))
+                .thenReturn(transactionList);
+        BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
 
         List<TransactionGetResponse> response = service.findAll(dateStart, dateEnd);
@@ -131,14 +134,11 @@ class TransactionServiceTest {
     @DisplayName("findAll returns found transactions when the dateStart is given")
     @Order(6)
     void findAll_ReturnsFoundTransactions_WhenTheStartDateIsGiven() {
-        List<Transaction> transactions = TransactionUtils.newTransactionList();
-        List<TransactionGetResponse> transactionGetResponseList = TransactionUtils.newTransactionGetResponseList();
-
         LocalDateTime dateStart = TransactionUtils.getStartDateValid();
 
         BDDMockito.when(repository.findAllByDateGreaterThanEqual(dateStart, Sort.by("date").descending()))
-                .thenReturn(transactions);
-        BDDMockito.when(mapper.toTransactionGetResponseList(transactions))
+                .thenReturn(transactionList);
+        BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
 
 
@@ -175,13 +175,11 @@ class TransactionServiceTest {
     @DisplayName("findAll returns found transactions when the end date is given")
     @Order(8)
     void findAll_ReturnsFoundTransactions_WhenTheEndDateIsGiven() {
-        List<Transaction> transactions = TransactionUtils.newTransactionList();
-        List<TransactionGetResponse> transactionGetResponseList = TransactionUtils.newTransactionGetResponseList();
-
         LocalDateTime dateEnd = TransactionUtils.getEndDateValid();
+
         BDDMockito.when(repository.findAllByDateLessThanEqual(dateEnd, Sort.by("date").descending()))
-                .thenReturn(transactions);
-        BDDMockito.when(mapper.toTransactionGetResponseList(transactions))
+                .thenReturn(transactionList);
+        BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
 
         List<TransactionGetResponse> response = service.findAll(null, dateEnd);
