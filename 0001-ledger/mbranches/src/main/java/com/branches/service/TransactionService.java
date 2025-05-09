@@ -20,9 +20,7 @@ public class TransactionService {
     private final TransactionMapper mapper;
 
     public TransactionPostResponse save(TransactionPostRequest postRequest) {
-        System.out.println(postRequest.getDescription());
         Transaction transactionToSave = mapper.toTransaction(postRequest);
-        System.out.println(transactionToSave.getDescription());
 
         Transaction response = repository.save(transactionToSave);
 
@@ -33,18 +31,18 @@ public class TransactionService {
         return repository.sumAllTransactions();
     }
 
-    public List<TransactionGetResponse> findAll(LocalDateTime dateStart, LocalDateTime dateEnd) {
+    public List<TransactionGetResponse> findAll(LocalDateTime startDate, LocalDateTime endDate) {
         List<Transaction> response;
         Sort sort = Sort.by("date").descending();
 
-        if (dateStart == null && dateEnd == null) {
+        if (startDate == null && endDate == null) {
             response = repository.findAll(sort);
-        } else if (dateStart != null && dateEnd != null) {
-            response = repository.findAllByDateBetween(dateStart, dateEnd, sort);
-        } else if (dateStart != null) {
-            response = repository.findAllByDateGreaterThanEqual(dateStart, sort);
+        } else if (startDate != null && endDate != null) {
+            response = repository.findAllByDateBetween(startDate, endDate, sort);
+        } else if (startDate != null) {
+            response = repository.findAllByDateGreaterThanEqual(startDate, sort);
         } else {
-            response = repository.findAllByDateLessThanEqual(dateEnd, sort);
+            response = repository.findAllByDateLessThanEqual(endDate, sort);
         }
         return mapper.toTransactionGetResponseList(response);
     }

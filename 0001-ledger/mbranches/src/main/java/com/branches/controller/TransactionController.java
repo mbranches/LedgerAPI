@@ -35,9 +35,9 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionGetResponse>> findAll(@RequestParam(required = false) LocalDateTime dateStart,
-                                                                @RequestParam(required = false) LocalDateTime dateEnd) {
-        List<TransactionGetResponse> response = service.findAll(dateStart, dateEnd);
+    public ResponseEntity<List<TransactionGetResponse>> findAll(@RequestParam(required = false) LocalDateTime startDate,
+                                                                @RequestParam(required = false) LocalDateTime endDate) {
+        List<TransactionGetResponse> response = service.findAll(startDate, endDate);
 
         return ResponseEntity.ok(response);
     }
