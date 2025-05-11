@@ -243,14 +243,10 @@ id,value,description,date
 - Maven 
 - Docker
 
-### 1. Clone o repositório dos desafios:
+### 1. Clone o repositório do projeto:
 ```
-git clone https://github.com/mbranches/desafios.git
-```
-
-### 2. Navegue até o diretório do projeto:
-```
-cd desafios/0001-ledger/mbranches
+git clone https://github.com/mbranches/LedgerAPI.git  
+cd LedgerAPI
 ```
 
 ### 3. Popule as variáveis de ambiente
