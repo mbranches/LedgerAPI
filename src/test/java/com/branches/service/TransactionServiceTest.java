@@ -77,7 +77,7 @@ class TransactionServiceTest {
     void findAll_ReturnsAllTransactions_WhenSuccessful() {
         Sort sort = Sort.by("date").descending();
 
-        BDDMockito.when(repository.findAll(sort))
+        BDDMockito.when(repository.findAllByDateFilter(null, null, sort))
                 .thenReturn(transactionList);
         BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
@@ -98,7 +98,7 @@ class TransactionServiceTest {
         LocalDateTime endDate = TransactionUtils.getEndDateValid();
 
         Sort sort = Sort.by("date").descending();
-        BDDMockito.when(repository.findAllByDateBetween(starDate, endDate, sort))
+        BDDMockito.when(repository.findAllByDateFilter(starDate, endDate, sort))
                 .thenReturn(transactionList);
         BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
@@ -118,7 +118,7 @@ class TransactionServiceTest {
         LocalDateTime starDate = LocalDateTime.of(2030, 12, 1, 23, 59, 59);
         LocalDateTime endDate = LocalDateTime.of(2030, 12, 31, 23, 59, 59);
 
-        BDDMockito.when(repository.findAllByDateBetween(starDate, endDate, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateFilter(starDate, endDate, Sort.by("date").descending()))
                 .thenReturn(Collections.emptyList());
         BDDMockito.when(mapper.toTransactionGetResponseList(Collections.emptyList()))
                 .thenReturn(Collections.emptyList());
@@ -136,7 +136,7 @@ class TransactionServiceTest {
     void findAll_ReturnsFoundTransactions_WhenTheStartDateIsGiven() {
         LocalDateTime starDate = TransactionUtils.getStartDateValid();
 
-        BDDMockito.when(repository.findAllByDateGreaterThanEqual(starDate, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateFilter(starDate, null, Sort.by("date").descending()))
                 .thenReturn(transactionList);
         BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
@@ -158,7 +158,7 @@ class TransactionServiceTest {
     void findAll_ReturnsEmptyList_WhenDoesNotExistsTransactionsAfterDateStart() {
         LocalDateTime starDate = LocalDateTime.of(2030, 12, 1, 23, 59, 59);
 
-        BDDMockito.when(repository.findAllByDateGreaterThanEqual(starDate, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateFilter(starDate, null, Sort.by("date").descending()))
                 .thenReturn(Collections.emptyList());
         BDDMockito.when(mapper.toTransactionGetResponseList(Collections.emptyList()))
                 .thenReturn(Collections.emptyList());
@@ -177,7 +177,7 @@ class TransactionServiceTest {
     void findAll_ReturnsFoundTransactions_WhenTheEndDateIsGiven() {
         LocalDateTime endDate = TransactionUtils.getEndDateValid();
 
-        BDDMockito.when(repository.findAllByDateLessThanEqual(endDate, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateFilter(null, endDate, Sort.by("date").descending()))
                 .thenReturn(transactionList);
         BDDMockito.when(mapper.toTransactionGetResponseList(transactionList))
                 .thenReturn(transactionGetResponseList);
@@ -196,7 +196,7 @@ class TransactionServiceTest {
     void findAll_ReturnsEmptyList_WhenDoesNotExistsTransactionsBeforeDateEnd() {
         LocalDateTime endDate = LocalDateTime.of(2025, 1, 1, 0, 0, 0);
 
-        BDDMockito.when(repository.findAllByDateLessThanEqual(endDate, Sort.by("date").descending()))
+        BDDMockito.when(repository.findAllByDateFilter(null, endDate, Sort.by("date").descending()))
                 .thenReturn(Collections.emptyList());
         BDDMockito.when(mapper.toTransactionGetResponseList(Collections.emptyList()))
                 .thenReturn(Collections.emptyList());
