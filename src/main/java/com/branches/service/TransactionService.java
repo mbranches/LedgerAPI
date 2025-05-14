@@ -32,18 +32,9 @@ public class TransactionService {
     }
 
     public List<TransactionGetResponse> findAll(LocalDateTime startDate, LocalDateTime endDate) {
-        List<Transaction> response;
         Sort sort = Sort.by("date").descending();
+        List<Transaction> response = repository.findAllByDateFilter(startDate, endDate, sort);
 
-        if (startDate == null && endDate == null) {
-            response = repository.findAll(sort);
-        } else if (startDate != null && endDate != null) {
-            response = repository.findAllByDateBetween(startDate, endDate, sort);
-        } else if (startDate != null) {
-            response = repository.findAllByDateGreaterThanEqual(startDate, sort);
-        } else {
-            response = repository.findAllByDateLessThanEqual(endDate, sort);
-        }
         return mapper.toTransactionGetResponseList(response);
     }
 

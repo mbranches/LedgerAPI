@@ -18,9 +18,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     List<Transaction> findAllByValueIsLessThan(Double valueIsLessThan);
 
-    List<Transaction> findAllByDateBetween(LocalDateTime dateAfter, LocalDateTime dateBefore, Sort sort);
-
-    List<Transaction> findAllByDateGreaterThanEqual(LocalDateTime dateIsGreaterThan, Sort sort);
-
-    List<Transaction> findAllByDateLessThanEqual(LocalDateTime dateEnd, Sort sort);
+    @Query(
+            "SELECT t FROM Transaction t WHERE (:startDate IS NULL OR t.date >= :startDate)" +
+                    "AND (:endDate IS NULL OR t.date <= :endDate)"
+    )
+    List<Transaction> findAllByDateFilter(LocalDateTime startDate, LocalDateTime endDate, Sort sort);
 }
